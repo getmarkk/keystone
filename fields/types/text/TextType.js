@@ -25,8 +25,10 @@ text.prototype.validateInput = function (data, callback) {
 	if (max && typeof value === 'string') {
 		result = value.length < max;
 	}
-	if (min && typeof value === 'string') {
+	if(result) {
+	   if (min && typeof value === 'string') {
 		result = value.length > min;
+	   }
 	}
 	utils.defer(callback, result);
 };
