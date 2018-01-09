@@ -370,7 +370,7 @@ List.prototype.approveItems = function (itemIds, callback) {
  */
 List.prototype.getPermissions = function (callback) {
 	var userPerms = {};
-	let url = Keystone.adminPath + '/api/users/' + Keystone.user.id;
+	let url = Keystone.adminPath + '/api/admin-users/' + Keystone.user.id;
 
 	xhr({
 		url: url,
