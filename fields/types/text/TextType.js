@@ -23,12 +23,12 @@ text.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
 	var result = value === undefined || value === null || typeof value === 'string';
 	if (max && typeof value === 'string') {
-		result = value.length < max;
+		result = value.length <= max;
 	}
 	if(result) {
-	   if (min && typeof value === 'string') {
-		result = value.length > min;
-	   }
+		if (min && typeof value === 'string') {
+			result = value.length >= min;
+		}
 	}
 	utils.defer(callback, result);
 };

@@ -9,7 +9,7 @@ import vkey from 'vkey';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
-import { Button, Form, Modal } from '../elemental';
+import { Button, LoadingButton, Form, Modal } from '../elemental';
 
 const CreateForm = React.createClass({
 	displayName: 'CreateForm',
@@ -37,6 +37,7 @@ const CreateForm = React.createClass({
 		});
 		return {
 			values: values,
+			loading: false,
 			alerts: {},
 		};
 	},
@@ -74,6 +75,9 @@ const CreateForm = React.createClass({
 		event.preventDefault();
 		const createForm = event.target;
 		const formData = new FormData(createForm);
+		this.setState({
+                        loading: true,
+                });
 		this.props.list.createItem(formData, (err, data) => {
 			if (data) {
 				if (this.props.onCreate) {
@@ -82,6 +86,7 @@ const CreateForm = React.createClass({
 					// Clear form
 					this.setState({
 						values: {},
+						loading: false,
 						alerts: {
 							success: {
 								success: 'Item created',
@@ -104,6 +109,7 @@ const CreateForm = React.createClass({
 					alerts: {
 						error: err,
 					},
+					loading: false,
 				});
 			}
 		});
@@ -115,6 +121,8 @@ const CreateForm = React.createClass({
 		var form = [];
 		var list = this.props.list;
 		var nameField = this.props.list.nameField;
+		const { loading } = this.state;
+                const loadingButtonText = loading ? 'Creating' : 'Create';
 		var focusWasSet;
 
 		// If the name field is an initial one, we need to render a proper
@@ -161,9 +169,15 @@ const CreateForm = React.createClass({
 					{form}
 				</Modal.Body>
 				<Modal.Footer>
-					<Button color="success" type="submit" data-button-type="submit">
-						Create
-					</Button>
+					<LoadingButton
+                                                        color="success"
+                                                        disabled={loading}
+                                                        loading={loading}
+                                                        type="submit"
+                                                        data-button-type="submit"
+                                                >
+                                                        {loadingButtonText}
+                                                </LoadingButton>
 					<Button
 						variant="link"
 						color="cancel"
