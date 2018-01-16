@@ -81,9 +81,12 @@ var Base = module.exports.Base = {
 		return <FormInput noedit>{this.props.value}</FormInput>;
 	},
 	renderUI () {
+                var required = "";
+		if (this.props.required) required = "required-field"; 
 		var wrapperClassName = classnames(
 			'field-type-' + this.props.type,
 			this.props.className,
+			required,
 			{ 'field-monospace': this.props.monospace }
 		);
 		return (
