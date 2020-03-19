@@ -14,8 +14,8 @@ import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import Lightbox from 'react-images';
 
-const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = ['image/*','video/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^image\/|video\/|application\/pdf|application\/postscript/g);
 
 let uploadInc = 1000;
 
