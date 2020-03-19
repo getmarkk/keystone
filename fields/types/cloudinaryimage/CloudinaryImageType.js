@@ -352,7 +352,7 @@ function trimSupportedFileExtensions (publicId) {
 		'.jpg', '.jpe', '.jpeg', '.jpc', '.jp2', '.j2k', '.wdp', '.jxr',
 		'.hdp', '.png', '.gif', '.webp', '.bmp', '.tif', '.tiff', '.ico',
 		'.pdf', '.ps', '.ept', '.eps', '.eps3', '.psd', '.svg', '.ai',
-		'.djvu', '.flif', '.tga',
+		'.djvu', '.flif', '.tga','.mp4'
 	];
 	for (var i = 0; i < supportedExtensions.length; i++) {
 		var extension = supportedExtensions[i];
@@ -361,6 +361,13 @@ function trimSupportedFileExtensions (publicId) {
 		}
 	}
 	return publicId;
+}
+
+function getResourceType (publicId) {
+	if (_.endsWith(publicId, ".mp4")) {
+			return "video";
+	}
+	return "image";
 }
 
 /**
@@ -440,6 +447,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				filename = sanitize(filename);
 				uploadOptions.public_id = trimSupportedFileExtensions(filename);
 			}
+			uploadOptions.resource_type = getResourceType(uploadedFile.path);
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
 				if (result.error) {
@@ -548,6 +556,7 @@ cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callba
 			if (keystone.get('env') !== 'production') {
 				uploadOptions.tags.push(tp + 'dev');
 			}
+			uploadOptions.resource_type = getResourceType(req.files[paths.upload].originalname);
 			if (field.options.publicID) {
 				var publicIdValue = item.get(field.options.publicID);
 				if (publicIdValue) {
